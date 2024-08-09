@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from 'react'
 const TypingIndicator = () => (
   <Box display="flex" alignItems="center">
     <Box
-      bgcolor="#4db6ac" // Lighter Blue-Green for typing indicator
+      bgcolor="#4db6ac" 
       width={8}
       height={8}
       borderRadius="50%"
@@ -21,7 +21,7 @@ const TypingIndicator = () => (
       }}
     />
     <Box
-      bgcolor="#4db6ac" // Lighter Blue-Green for typing indicator
+      bgcolor="#4db6ac" 
       width={8}
       height={8}
       borderRadius="50%"
@@ -36,7 +36,7 @@ const TypingIndicator = () => (
       }}
     />
     <Box
-      bgcolor="#4db6ac" // Lighter Blue-Green for typing indicator
+      bgcolor="#4db6ac"
       width={8}
       height={8}
       borderRadius="50%"
@@ -68,12 +68,10 @@ export default function Home() {
     if (!message.trim() || isLoading) return
     setIsLoading(true)
 
-    // Add user message
     const newMessages = [...messages, { role: 'user', content: message }]
     setMessages(newMessages)
     setMessage('')
 
-    // Add typing indicator for the assistant
     const typingIndex = newMessages.length
     setTypingMessageIndex(typingIndex)
     setMessages((prevMessages) => [
@@ -104,7 +102,6 @@ export default function Home() {
         content += decoder.decode(value, { stream: true })
       }
 
-      // Replace typing indicator with actual message
       setMessages((messages) => {
         const updatedMessages = [...messages]
         updatedMessages[typingMessageIndex] = { role: 'assistant', content }
@@ -119,7 +116,7 @@ export default function Home() {
       ])
     } finally {
       setIsLoading(false)
-      setTypingMessageIndex(null) // Ensure typing indicator is cleared
+      setTypingMessageIndex(null)
     }
   }
 
@@ -148,7 +145,7 @@ export default function Home() {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      bgcolor="#e0f2f1" // Lighter green background
+      bgcolor="#e0f2f1"
     >
       <Typography 
         variant="h4" 
@@ -156,8 +153,8 @@ export default function Home() {
         fontWeight="bold" 
         mb={2} 
         textAlign="center" 
-        fontFamily="'Roboto', sans-serif" // Use a clean, modern font
-        color="#00796b" // Matching color theme
+        fontFamily="'Roboto', sans-serif"
+        color="#00796b"
       >
         Your AI Helper
       </Typography>
@@ -198,8 +195,8 @@ export default function Home() {
               <Box
                 bgcolor={
                   message.role === 'assistant'
-                    ? '#80cbc4' // Lighter Blue-Green for assistant
-                    : '#2f8a81' // Slightly darker Blue-Green for user
+                    ? '#80cbc4' 
+                    : '#2f8a81' 
                 }
                 color={
                   message.role === 'assistant'
@@ -210,7 +207,7 @@ export default function Home() {
                 p={2}
                 maxWidth="75%"
                 position="relative"
-                fontFamily="'Roboto', sans-serif" // Use the same font for consistency
+                fontFamily="'Roboto', sans-serif"
               >
                 {index === typingMessageIndex ? (
                   <TypingIndicator />
@@ -241,17 +238,17 @@ export default function Home() {
             sx={{
               '& .MuiOutlinedInput-root': {
                 borderRadius: '20px',
-                fontFamily: "'Roboto', sans-serif", // Consistent font
-                backgroundColor: 'white', // Set the background color to white
+                fontFamily: "'Roboto', sans-serif",
+                backgroundColor: 'white',
               },
               '& .MuiInputLabel-root': {
-                color: '#00796b', // Optional: color of the label text
+                color: '#00796b',
               },
               '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#00796b', // Optional: color of the border
+                borderColor: '#00796b',
               },
               '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#004d40', // Optional: color of the border on hover
+                borderColor: '#004d40',
               },
             }}
           />
