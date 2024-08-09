@@ -65,61 +65,61 @@ export default function Home() {
   const [typingMessageIndex, setTypingMessageIndex] = useState(null)
 
   const sendMessage = async () => {
-    if (!message.trim() || isLoading) return
-    setIsLoading(true)
-
-    const newMessages = [...messages, { role: 'user', content: message }]
-    setMessages(newMessages)
-    setMessage('')
-
-    const typingIndex = newMessages.length
-    setTypingMessageIndex(typingIndex)
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { role: 'assistant', content: '', isTyping: true },
-    ])
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newMessages),
-      })
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder()
-      let content = ''
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        content += decoder.decode(value, { stream: true })
-      }
-
-      setMessages((messages) => {
-        const updatedMessages = [...messages]
-        updatedMessages[typingMessageIndex] = { role: 'assistant', content }
-        return updatedMessages
-      })
-
-    } catch (error) {
-      console.error('Error:', error)
-      setMessages((messages) => [
-        ...messages,
-        { role: 'assistant', content: "I'm sorry, but I encountered an error. Please try again later." },
-      ])
-    } finally {
-      setIsLoading(false)
-      setTypingMessageIndex(null)
-    }
-  }
-
+	if (!message.trim() || isLoading) return
+	setIsLoading(true)
+ 
+	const newMessages = [...messages, { role: 'user', content: message }]
+	setMessages(newMessages)
+	setMessage('')
+ 
+	const typingIndex = newMessages.length
+	setTypingMessageIndex(typingIndex)
+	setMessages((prevMessages) => [
+	  ...prevMessages,
+	  { role: 'assistant', content: 'I am Groot', isTyping: true },
+	])
+ 
+	try {
+	  const response = await fetch('/api/chat', {
+		 method: 'POST',
+		 headers: {
+			'Content-Type': 'application/json',
+		 },
+		 body: JSON.stringify(newMessages),
+	  })
+ 
+	  if (!response.ok) {
+		 throw new Error('Network response was not ok')
+	  }
+ 
+	  const reader = response.body.getReader()
+	  const decoder = new TextDecoder()
+	  let content = ''
+ 
+	  while (true) {
+		 const { done, value } = await reader.read()
+		 if (done) break
+		 content += decoder.decode(value, { stream: true })
+	  }
+ 
+	  setMessages((messages) => {
+		 const updatedMessages = [...messages]
+		 updatedMessages[typingMessageIndex] = { role: 'assistant', content }
+		 return updatedMessages
+	  })
+ 
+	} catch (error) {
+	  console.error('Error:', error)
+	  setMessages((messages) => [
+		 ...messages,
+		 { role: 'assistant', content: "I'm sorry, but I encountered an error. Please try again later." },
+	  ])
+	} finally {
+	  setIsLoading(false)
+	  setTypingMessageIndex(null)
+	}
+ }
+ 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
@@ -177,53 +177,54 @@ export default function Home() {
           maxHeight="100%"
         >
           {messages.map((message, index) => (
-            <Box
-              key={index}
-              display="flex"
-              justifyContent={
-                message.role === 'assistant' ? 'flex-start' : 'flex-end'
-              }
-              alignItems="center"
-            >
-              {message.role === 'assistant' && !message.isTyping && (
-                <Avatar
-                  src="/images/groot.jpg"
+				<Box
+					key={index}
+					display="flex"
+					justifyContent={
+						message.role === 'assistant' ? 'flex-start' : 'flex-end'
+					}
+					alignItems="center"
+				>
+					{message.role === 'assistant' && !message.isTyping && (
+						<Avatar
+						src="/images/groot.jpg"
 						alt="Groot"
-                  sx={{ mr: 2, width: 40, height: 40 }}
-                />
-              )}
-              <Box
-                bgcolor={
-                  message.role === 'assistant'
-                    ? '#80cbc4' 
-                    : '#2f8a81' 
-                }
-                color={
-                  message.role === 'assistant'
-                    ? 'black'
-                    : 'white'
-                }
-                borderRadius={16}
-                p={2}
-                maxWidth="75%"
-                position="relative"
-                fontFamily="'Roboto', sans-serif"
-              >
-                {index === typingMessageIndex ? (
-                  <TypingIndicator />
-                ) : (
-                  message.content
-                )}
-              </Box>
-              {message.role === 'user' && (
-                <Avatar
-                  alt="User"
-                  src="/path/to/user-pfp.png"
-                  sx={{ ml: 2, width: 40, height: 40 }}
-                />
-              )}
-            </Box>
-          ))}
+						sx={{ mr: 2, width: 40, height: 40 }}
+						/>
+					)}
+					<Box
+						bgcolor={
+						message.role === 'assistant'
+							? '#80cbc4' 
+							: '#2f8a81' 
+						}
+						color={
+						message.role === 'assistant'
+							? 'black'
+							: 'white'
+						}
+						borderRadius={16}
+						p={2}
+						maxWidth="75%"
+						position="relative"
+						fontFamily="'Roboto', sans-serif"
+					>
+						{index === typingMessageIndex ? (
+						<TypingIndicator />
+						) : (
+						message.content
+						)}
+					</Box>
+					{message.role === 'user' && (
+						<Avatar
+						alt="User"
+						src="/path/to/user-pfp.png"
+						sx={{ ml: 2, width: 40, height: 40 }}
+						/>
+					)}
+				</Box>
+				))}
+
           <div ref={messagesEndRef} />
         </Stack>
         <Stack direction={'row'} spacing={2}>
